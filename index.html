@@ -3,319 +3,264 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Tripmate AI — intelligent multi-agent travel planning for personalized itineraries, destination discovery, budgeting, weather awareness and map navigation." />
-  <meta name="keywords" content="Tripmate AI, AI travel planner, intelligent itinerary planner, trip planner, multi-agent travel assistant" />
+  <meta name="description" content="Tripmate AI — a cinematic multi-agent AI travel planner with intelligent itinerary design, budget reasoning, weather awareness, safety checks, and direct Google Maps navigation." />
+  <meta name="keywords" content="Tripmate AI, multi-agent travel planner, AI itinerary planner, LangGraph, LLM agents, Google Maps, travel AI, senior ML engineer portfolio" />
   <meta name="author" content="Talha Nazir" />
-  <meta property="og:title" content="Tripmate AI — Intelligent Travel Planning" />
-  <meta property="og:description" content="Plan smarter journeys with intelligent destination discovery, optimized itineraries, budget awareness and direct navigation." />
+  <meta property="og:title" content="Tripmate AI — Multi-Agent Travel Planner" />
+  <meta property="og:description" content="A cinematic multi-agent AI travel planner for intelligent itineraries, budget planning, route optimization, and map navigation." />
   <meta property="og:type" content="website" />
-  <title>Tripmate AI — Intelligent Travel Planning</title>
+  <title>Tripmate AI — Multi-Agent Travel Planner</title>
 
   <style>
-    :root{
-      --bg:#061315;
-      --bg2:#0a1d20;
-      --surface:#10292c;
-      --surface2:#153438;
-      --cream:#fff8ec;
-      --text:#f7fbf7;
-      --muted:#b8cbca;
-      --teal:#26c6b8;
-      --teal2:#74ead9;
-      --gold:#f6c870;
-      --coral:#ff8e78;
-      --line:rgba(255,255,255,.12);
-      --glass:rgba(7,25,27,.52);
-      --shadow:0 28px 90px rgba(0,0,0,.34);
-      --radius:28px;
+    :root {
+      --ink: #07111f;
+      --navy: #0b1c2f;
+      --blue: #1597ff;
+      --cyan: #33e0d0;
+      --violet: #8c71ff;
+      --gold: #ffbf69;
+      --white: #ffffff;
+      --text: #f7fbff;
+      --muted: #b7c7d8;
+      --glass: rgba(8, 20, 34, .58);
+      --glass2: rgba(255,255,255,.10);
+      --line: rgba(255,255,255,.16);
+      --shadow: 0 24px 80px rgba(0,0,0,.28);
+      --radius: 26px;
     }
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:linear-gradient(180deg,#061315 0%,#081a1d 50%,#061315 100%);
-      color:var(--text);
-      line-height:1.6;
-      overflow-x:hidden;
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #07111f;
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
     }
-    a{color:inherit;text-decoration:none}
-    .container{width:min(1200px,calc(100% - 36px));margin:auto}
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .container { width: min(1180px, calc(100% - 34px)); margin: auto; }
 
-    .nav{
-      position:fixed;inset:0 0 auto 0;z-index:60;
-      background:linear-gradient(180deg,rgba(3,15,16,.8),rgba(3,15,16,.18));
-      backdrop-filter:blur(18px);
-      border-bottom:1px solid rgba(255,255,255,.07)
+    /* NAV */
+    .nav {
+      position: fixed; inset: 0 0 auto 0; z-index: 60;
+      background: linear-gradient(180deg, rgba(4,12,22,.78), rgba(4,12,22,.14));
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
-    .nav-inner{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-    .brand{display:flex;align-items:center;gap:12px;font-size:18px;font-weight:900;letter-spacing:-.03em}
-    .logo{
-      width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--teal),var(--gold));
-      color:#062023;font-size:19px;font-weight:900;
-      box-shadow:0 12px 38px rgba(38,198,184,.25)
+    .nav-inner {
+      min-height: 74px; display:flex; align-items:center; justify-content:space-between; gap:24px;
     }
-    .nav-links{display:flex;gap:22px;align-items:center;color:#d5e6e4;font-size:14px;font-weight:750}
-    .nav-links a{opacity:.85;transition:.2s}
-    .nav-links a:hover{opacity:1;color:white}
-    .nav-cta{
-      padding:11px 16px;border-radius:13px;
-      background:rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.14)
+    .brand { display:flex; align-items:center; gap:12px; font-weight:900; letter-spacing:-.025em; }
+    .logo {
+      width:42px; height:42px; border-radius:14px; display:grid; place-items:center;
+      background: linear-gradient(135deg, #1da1ff, #8a73ff);
+      box-shadow:0 10px 35px rgba(21,151,255,.34);
     }
+    .nav-links { display:flex; align-items:center; gap:20px; color:#d8e7f5; font-size:14px; font-weight:700; }
+    .nav-links a { opacity:.86; transition:.2s; }
+    .nav-links a:hover { opacity:1; color:white; }
 
-    .hero{height:100svh;min-height:760px;position:relative;overflow:hidden}
-    .slides,.slide{position:absolute;inset:0}
-    .slide{
-      opacity:0;transform:scale(1.06);
-      transition:opacity 1s ease,transform 8s ease;
-      background-size:cover;background-position:center
+    /* HERO SLIDER */
+    .hero { height: 100svh; min-height: 720px; position:relative; overflow:hidden; }
+    .slides, .slide { position:absolute; inset:0; }
+    .slide {
+      opacity:0; transform:scale(1.04);
+      transition: opacity 1s ease, transform 7s ease;
+      background-size:cover; background-position:center;
     }
-    .slide.active{opacity:1;transform:scale(1)}
-    .slide::after{
-      content:"";position:absolute;inset:0;
+    .slide.active { opacity:1; transform:scale(1); }
+    .slide::after {
+      content:""; position:absolute; inset:0;
       background:
-        linear-gradient(90deg,rgba(3,15,16,.90) 0%,rgba(3,15,16,.58) 44%,rgba(3,15,16,.16) 76%,rgba(3,15,16,.32) 100%),
-        linear-gradient(0deg,rgba(3,15,16,.94) 0%,rgba(3,15,16,.06) 52%,rgba(3,15,16,.30) 100%)
+        linear-gradient(90deg, rgba(4,11,20,.88) 0%, rgba(4,11,20,.58) 43%, rgba(4,11,20,.14) 74%, rgba(4,11,20,.30) 100%),
+        linear-gradient(0deg, rgba(4,11,20,.92) 0%, rgba(4,11,20,.12) 54%, rgba(4,11,20,.36) 100%);
     }
-    .hero-content{
-      position:relative;z-index:5;height:100%;
-      display:flex;align-items:center;padding-top:74px
+    .hero-content {
+      position:relative; z-index:5; height:100%;
+      display:flex; align-items:center; padding-top:70px;
     }
-    .hero-copy{max-width:800px}
-    .eyebrow{
-      display:inline-flex;align-items:center;gap:9px;
-      padding:9px 13px;border-radius:999px;
-      border:1px solid rgba(255,255,255,.18);
-      background:rgba(6,28,30,.40);
-      backdrop-filter:blur(14px);
-      color:#eefbf7;font-size:13px;font-weight:850
+    .hero-copy { max-width:780px; }
+    .eyebrow {
+      display:inline-flex; align-items:center; gap:9px;
+      padding:9px 13px; border:1px solid rgba(255,255,255,.22);
+      background:rgba(6,17,30,.38); backdrop-filter:blur(14px);
+      border-radius:999px; font-size:13px; font-weight:800; color:#eaf7ff;
     }
-    h1{
-      margin:20px 0 20px;
-      font-size:clamp(52px,7.5vw,94px);
-      line-height:.95;
-      letter-spacing:-.062em;
-      text-shadow:0 14px 42px rgba(0,0,0,.40)
+    h1 {
+      margin:20px 0 18px; font-size:clamp(50px,7.2vw,90px);
+      line-height:.94; letter-spacing:-.06em; text-shadow:0 12px 40px rgba(0,0,0,.36);
     }
-    .hero-highlight{
-      background:linear-gradient(90deg,#fff9ee 0%,#7ee8d9 48%,#f6c870 100%);
-      -webkit-background-clip:text;background-clip:text;color:transparent
+    .hero-sub {
+      max-width:720px; font-size:20px; color:#e0ebf5; text-shadow:0 4px 20px rgba(0,0,0,.4);
     }
-    .hero-sub{
-      max-width:720px;
-      color:#e5efed;
-      font-size:20px;
-      text-shadow:0 5px 20px rgba(0,0,0,.40)
+    .hero-actions { display:flex; flex-wrap:wrap; gap:14px; margin-top:30px; }
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center; gap:9px;
+      min-height:52px; padding:0 19px; border-radius:15px; font-size:14px; font-weight:900;
+      border:1px solid transparent; transition:.22s ease; cursor:pointer;
     }
-    .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:31px}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:9px;
-      min-height:54px;padding:0 20px;border-radius:15px;font-weight:900;font-size:14px;
-      border:1px solid transparent;transition:.22s ease
+    .btn:hover { transform:translateY(-2px); }
+    .btn-primary {
+      background:linear-gradient(135deg, #1597ff, #876cff);
+      box-shadow:0 17px 50px rgba(21,151,255,.28);
     }
-    .btn:hover{transform:translateY(-2px)}
-    .btn-primary{
-      background:linear-gradient(135deg,var(--teal),var(--teal2));
-      color:#052124;
-      box-shadow:0 18px 52px rgba(38,198,184,.28)
+    .btn-glass {
+      border-color:rgba(255,255,255,.25); background:rgba(255,255,255,.10); backdrop-filter:blur(14px);
     }
-    .btn-glass{
-      background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.20);backdrop-filter:blur(14px)
-    }
-    .hero-trust{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
-    .trust{
-      padding:11px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.13);
-      background:rgba(4,21,23,.38);backdrop-filter:blur(13px)
-    }
-    .trust b{display:block;font-size:17px}
-    .trust span{font-size:11px;color:#c9d9d6}
 
-    .slider-ui{
-      position:absolute;z-index:8;bottom:32px;left:50%;transform:translateX(-50%);
-      width:min(1200px,calc(100% - 36px));
-      display:flex;justify-content:space-between;align-items:flex-end;gap:18px
+    .hero-stats {
+      display:flex; flex-wrap:wrap; gap:12px; margin-top:34px;
     }
-    .slide-info{
-      min-width:245px;padding:13px 15px;border-radius:15px;
-      background:rgba(5,24,26,.42);backdrop-filter:blur(14px);
-      border:1px solid rgba(255,255,255,.14)
+    .stat {
+      padding:12px 15px; border-radius:14px; border:1px solid rgba(255,255,255,.15);
+      background:rgba(4,15,27,.34); backdrop-filter:blur(13px);
     }
-    .slide-info strong{display:block}
-    .slide-info small{color:#c0d3cf}
-    .slide-controls{display:flex;align-items:center;gap:10px}
-    .arrow-btn{
-      width:46px;height:46px;border-radius:50%;cursor:pointer;
-      border:1px solid rgba(255,255,255,.22);color:white;
-      background:rgba(4,20,22,.42);backdrop-filter:blur(10px)
-    }
-    .dots{display:flex;gap:8px;margin:0 6px}
-    .dot-btn{
-      width:9px;height:9px;border:0;padding:0;border-radius:999px;cursor:pointer;
-      background:rgba(255,255,255,.42);transition:.25s
-    }
-    .dot-btn.active{width:30px;background:#fff}
+    .stat b { display:block; font-size:18px; }
+    .stat span { color:#bfd1df; font-size:11px; }
 
-    .section{
-      padding:92px 0;
+    .slider-ui {
+      position:absolute; z-index:7; bottom:32px; left:50%; transform:translateX(-50%);
+      width:min(1180px, calc(100% - 34px));
+      display:flex; align-items:flex-end; justify-content:space-between; gap:20px;
+    }
+    .slide-info {
+      padding:12px 14px; border-radius:14px; background:rgba(4,15,27,.38);
+      border:1px solid rgba(255,255,255,.15); backdrop-filter:blur(12px); min-width:220px;
+    }
+    .slide-info small { color:#b8cddd; }
+    .slide-controls { display:flex; align-items:center; gap:10px; }
+    .arrow-btn {
+      width:46px; height:46px; border-radius:50%; border:1px solid rgba(255,255,255,.25);
+      color:white; background:rgba(3,12,22,.4); backdrop-filter:blur(10px); cursor:pointer;
+    }
+    .dots { display:flex; gap:8px; margin:0 6px; }
+    .dot-btn {
+      width:9px; height:9px; border:0; padding:0; border-radius:999px; cursor:pointer;
+      background:rgba(255,255,255,.42); transition:.25s;
+    }
+    .dot-btn.active { width:28px; background:white; }
+
+    /* BODY */
+    .section {
+      padding:86px 0;
       background:
-        radial-gradient(circle at 15% 0%,rgba(38,198,184,.09),transparent 30%),
-        radial-gradient(circle at 88% 72%,rgba(246,200,112,.06),transparent 28%),
-        #061315
+        radial-gradient(circle at 12% 0%, rgba(21,151,255,.10), transparent 26%),
+        radial-gradient(circle at 93% 70%, rgba(140,113,255,.09), transparent 28%),
+        #07111f;
     }
-    .section.alt{background:#0a1c1f}
-    .section-head{max-width:810px;margin-bottom:36px}
-    .kicker{
-      color:#62dccf;font-weight:900;font-size:12px;
-      text-transform:uppercase;letter-spacing:.14em
-    }
-    .section-head h2{
-      margin:9px 0 13px;font-size:clamp(38px,4.8vw,60px);
-      line-height:1.03;letter-spacing:-.046em
-    }
-    .section-head p{margin:0;color:var(--muted);font-size:17px}
+    .section.lightish { background:#0b1828; }
+    .section-head { max-width:790px; margin-bottom:34px; }
+    .section-head .mini { color:#63c6ff; font-size:12px; font-weight:900; letter-spacing:.13em; text-transform:uppercase; }
+    .section-head h2 { margin:8px 0 12px; font-size:clamp(36px,4.7vw,58px); line-height:1.03; letter-spacing:-.045em; }
+    .section-head p { margin:0; color:var(--muted); font-size:17px; }
 
-    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .card{
-      border:1px solid var(--line);border-radius:var(--radius);
-      background:linear-gradient(180deg,rgba(17,47,50,.92),rgba(9,31,34,.92));
-      box-shadow:0 22px 60px rgba(0,0,0,.18)
+    .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .card {
+      border:1px solid var(--line); border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(18,42,67,.88), rgba(10,27,45,.88));
+      box-shadow:0 22px 60px rgba(0,0,0,.18); overflow:hidden;
     }
-    .feature{padding:25px;transition:.24s;position:relative;overflow:hidden}
-    .feature:hover{transform:translateY(-5px);border-color:rgba(116,234,217,.40)}
-    .feature::after{
-      content:"";position:absolute;right:-55px;top:-55px;width:145px;height:145px;border-radius:50%;
-      background:radial-gradient(circle,rgba(38,198,184,.12),transparent 68%)
+    .feature { padding:24px; position:relative; transition:.25s; }
+    .feature:hover { transform:translateY(-5px); border-color:rgba(70,181,255,.45); }
+    .icon {
+      width:48px; height:48px; border-radius:15px; display:grid; place-items:center;
+      background:linear-gradient(135deg, rgba(21,151,255,.22), rgba(140,113,255,.20));
+      border:1px solid rgba(255,255,255,.10); font-size:22px;
     }
-    .icon{
-      width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
-      font-size:21px;background:linear-gradient(135deg,rgba(38,198,184,.22),rgba(246,200,112,.13));
-      border:1px solid rgba(255,255,255,.09)
-    }
-    .feature h3{margin:16px 0 8px;font-size:20px}
-    .feature p{margin:0;color:var(--muted);font-size:14px}
+    .feature h3 { margin:16px 0 8px; }
+    .feature p { color:var(--muted); margin:0; font-size:14px; }
 
-    .destination-grid{
-      display:grid;grid-template-columns:1.15fr .85fr .85fr;grid-auto-rows:310px;gap:16px
+    /* DESTINATION GALLERY */
+    .destination-grid { display:grid; grid-template-columns:1.15fr .85fr .85fr; grid-auto-rows:300px; gap:16px; }
+    .dest {
+      position:relative; border-radius:24px; overflow:hidden; border:1px solid rgba(255,255,255,.12);
+      background-size:cover; background-position:center; box-shadow:var(--shadow);
     }
-    .dest{
-      position:relative;overflow:hidden;border-radius:25px;
-      border:1px solid rgba(255,255,255,.10);
-      background-size:cover;background-position:center;
-      box-shadow:var(--shadow)
-    }
-    .dest.tall{grid-row:span 2}
-    .dest::after{
-      content:"";position:absolute;inset:0;
-      background:linear-gradient(0deg,rgba(2,14,15,.87),rgba(2,14,15,.03) 72%)
-    }
-    .dest-copy{position:absolute;left:20px;right:20px;bottom:18px;z-index:2}
-    .dest-copy h3{margin:0 0 3px;font-size:26px}
-    .dest-copy span{color:#d9e7e4;font-size:13px}
+    .dest.tall { grid-row:span 2; }
+    .dest::after { content:""; position:absolute; inset:0; background:linear-gradient(0deg,rgba(4,10,18,.82),rgba(4,10,18,.02) 70%); }
+    .dest-copy { position:absolute; z-index:2; left:20px; right:20px; bottom:18px; }
+    .dest-copy h3 { margin:0 0 3px; font-size:24px; }
+    .dest-copy span { color:#d2dfeb; font-size:13px; }
 
-    .trip-showcase{
-      display:grid;grid-template-columns:1.02fr .98fr;gap:22px;align-items:stretch
+    /* AGENTS */
+    .agents { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+    .agent { padding:24px; }
+    .agent-top { display:flex; gap:13px; align-items:center; }
+    .agent small { color:#7fbbe1; font-weight:900; letter-spacing:.11em; text-transform:uppercase; }
+    .agent h3 { margin:0; }
+    .agent ul { color:var(--muted); margin-bottom:0; padding-left:19px; }
+
+    /* ARCH */
+    .arch {
+      display:grid; grid-template-columns:1fr 70px 1fr 70px 1fr; gap:12px; align-items:stretch;
     }
-    .travel-panel{
-      min-height:560px;border-radius:28px;overflow:hidden;position:relative;
-      background:
-        linear-gradient(0deg,rgba(3,17,18,.86),rgba(3,17,18,.10)),
-        url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=88&w=1800") center/cover;
-      box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.11)
+    .arch-box { padding:23px; border:1px solid var(--line); border-radius:20px; background:rgba(255,255,255,.035); }
+    .arch-box h3 { margin-top:0; }
+    .arch-box ul { color:var(--muted); padding-left:18px; margin-bottom:0; }
+    .arch-arrow { display:grid; place-items:center; font-size:28px; color:#67c5ff; }
+
+    /* MAP */
+    .map-wrap { display:grid; grid-template-columns:.92fr 1.08fr; gap:20px; }
+    .map-list { display:grid; gap:12px; }
+    .map-link {
+      padding:16px; border-radius:16px; border:1px solid var(--line);
+      background:rgba(255,255,255,.035); display:flex; justify-content:space-between; align-items:center; gap:14px;
+      transition:.2s;
     }
-    .travel-panel-copy{
-      position:absolute;left:24px;right:24px;bottom:24px;
-      padding:22px;border-radius:19px;
-      background:rgba(5,25,27,.52);backdrop-filter:blur(16px);
-      border:1px solid rgba(255,255,255,.14)
+    .map-link:hover { transform:translateX(4px); border-color:rgba(21,151,255,.5); background:rgba(21,151,255,.07); }
+    .map-link small { color:var(--muted); display:block; }
+    .map-photo {
+      min-height:470px; border-radius:26px; border:1px solid var(--line); overflow:hidden;
+      position:relative; background:
+        linear-gradient(0deg,rgba(3,10,18,.75),rgba(3,10,18,.04)),
+        url("https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&q=85&w=1800") center/cover;
+      box-shadow:var(--shadow);
     }
-    .travel-panel-copy h3{font-size:31px;margin:0 0 7px}
-    .travel-panel-copy p{margin:0;color:#d5e5e1}
-    .itinerary{display:grid;gap:13px}
-    .day{
-      padding:19px;border-radius:18px;border:1px solid var(--line);
-      background:rgba(255,255,255,.035)
+    .map-card {
+      position:absolute; left:20px; right:20px; bottom:20px; padding:20px;
+      background:rgba(4,15,27,.55); border:1px solid rgba(255,255,255,.18);
+      border-radius:18px; backdrop-filter:blur(14px);
     }
-    .day-head{display:flex;justify-content:space-between;gap:15px}
-    .day strong{font-size:18px}
-    .day small{color:var(--gold);font-weight:800}
-    .day p{color:var(--muted);margin:7px 0 0}
-    .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
-    .chip{
-      padding:6px 9px;border-radius:999px;font-size:11px;
-      border:1px solid rgba(255,255,255,.10);color:#d7e7e4;background:rgba(255,255,255,.03)
+    .map-card h3 { margin:0 0 6px; font-size:27px; }
+    .map-card p { margin:0; color:#cfdfeb; }
+
+    .stack { display:flex; flex-wrap:wrap; gap:10px; }
+    .tech { padding:10px 13px; border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,.035); color:#d7e5f1; font-weight:800; font-size:13px; }
+
+    .repo-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .pad { padding:24px; }
+    .code {
+      background:#040d17; color:#cfe9ff; border:1px solid var(--line); border-radius:17px;
+      padding:19px; overflow:auto; font:13px/1.7 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     }
 
-    .agents{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-    .agent{padding:24px}
-    .agent-top{display:flex;align-items:center;gap:13px}
-    .agent small{color:#61dbce;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
-    .agent h3{margin:1px 0 0}
-    .agent ul{margin-bottom:0;padding-left:20px;color:var(--muted)}
+    .footer { padding:45px 0 55px; border-top:1px solid rgba(255,255,255,.10); color:#90a7ba; background:#050d17; }
+    .footer-inner { display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; }
 
-    .map-wrap{display:grid;grid-template-columns:.92fr 1.08fr;gap:20px}
-    .map-list{display:grid;gap:12px}
-    .map-link{
-      padding:16px;border-radius:16px;border:1px solid var(--line);
-      background:rgba(255,255,255,.035);
-      display:flex;justify-content:space-between;align-items:center;gap:14px;
-      transition:.2s
+    @media (max-width: 900px) {
+      .nav-links { display:none; }
+      .grid-3 { grid-template-columns:1fr 1fr; }
+      .destination-grid { grid-template-columns:1fr 1fr; grid-auto-rows:260px; }
+      .dest.tall { grid-row:span 1; }
+      .agents, .map-wrap, .repo-grid { grid-template-columns:1fr; }
+      .arch { grid-template-columns:1fr; }
+      .arch-arrow { transform:rotate(90deg); min-height:42px; }
     }
-    .map-link:hover{transform:translateX(4px);border-color:rgba(116,234,217,.42);background:rgba(38,198,184,.07)}
-    .map-link small{display:block;color:var(--muted)}
-    .map-photo{
-      min-height:500px;border-radius:28px;overflow:hidden;position:relative;
-      background:
-        linear-gradient(0deg,rgba(3,16,17,.75),rgba(3,16,17,.05)),
-        url("https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&q=88&w=1800") center/cover;
-      box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.10)
-    }
-    .map-card{
-      position:absolute;left:20px;right:20px;bottom:20px;
-      padding:20px;border-radius:18px;background:rgba(5,24,26,.55);
-      backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.15)
-    }
-    .map-card h3{font-size:28px;margin:0 0 6px}
-    .map-card p{margin:0;color:#d7e5e2}
-
-    .cta{
-      padding:52px;border-radius:30px;
-      background:
-        linear-gradient(120deg,rgba(4,26,28,.55),rgba(4,26,28,.60)),
-        url("https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=88&w=1800") center/cover;
-      border:1px solid rgba(255,255,255,.14);
-      box-shadow:var(--shadow)
-    }
-    .cta h2{font-size:clamp(38px,5vw,62px);line-height:1.02;letter-spacing:-.05em;margin:0 0 12px}
-    .cta p{max-width:720px;color:#e3eeeb;font-size:17px}
-
-    .footer{
-      padding:46px 0 56px;background:#041012;border-top:1px solid rgba(255,255,255,.08);
-      color:#97acab
-    }
-    .footer-inner{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
-
-    @media(max-width:920px){
-      .nav-links{display:none}
-      .grid-3{grid-template-columns:1fr 1fr}
-      .destination-grid{grid-template-columns:1fr 1fr;grid-auto-rows:270px}
-      .dest.tall{grid-row:span 1}
-      .trip-showcase,.agents,.map-wrap{grid-template-columns:1fr}
-    }
-    @media(max-width:620px){
-      .container{width:min(100% - 24px,1200px)}
-      .hero{min-height:790px}
-      h1{font-size:52px}
-      .hero-sub{font-size:17px}
-      .hero-actions{flex-direction:column}
-      .btn{width:100%}
-      .grid-3,.destination-grid{grid-template-columns:1fr}
-      .destination-grid{grid-auto-rows:250px}
-      .slide-info{display:none}
-      .slider-ui{justify-content:flex-end;bottom:18px}
-      .cta{padding:34px 24px}
+    @media (max-width: 620px) {
+      .container { width:min(100% - 24px,1180px); }
+      .hero { min-height:760px; }
+      h1 { font-size:51px; }
+      .hero-sub { font-size:17px; }
+      .grid-3, .destination-grid { grid-template-columns:1fr; }
+      .destination-grid { grid-auto-rows:250px; }
+      .hero-actions { flex-direction:column; }
+      .btn { width:100%; }
+      .slider-ui { bottom:18px; }
+      .slide-info { display:none; }
+      .slider-ui { justify-content:flex-end; }
     }
   </style>
 </head>
@@ -325,11 +270,12 @@
     <div class="container nav-inner">
       <a class="brand" href="#top"><span class="logo">✦</span><span>Tripmate AI</span></a>
       <div class="nav-links">
-        <a href="#discover">Discover</a>
-        <a href="#journey">Plan</a>
-        <a href="#agents">Intelligence</a>
+        <a href="#features">Features</a>
+        <a href="#destinations">Explore</a>
+        <a href="#agents">Agents</a>
+        <a href="#architecture">Architecture</a>
         <a href="#maps">Maps</a>
-        <a class="nav-cta" href="#start">Start Your Trip</a>
+        <a href="#setup">Setup</a>
       </div>
     </div>
   </nav>
@@ -337,55 +283,50 @@
   <header class="hero" id="top">
     <div class="slides">
       <div class="slide active"
-        data-place="Amalfi Coast, Italy"
-        data-caption="Coastal escapes shaped around views, timing and local experiences"
-        style="background-image:url('https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?auto=format&fit=crop&q=90&w=2200');"></div>
-
-      <div class="slide"
-        data-place="Swiss Alps"
-        data-caption="Mountain journeys adapted to weather, pace and transport"
-        style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=90&w=2200');"></div>
-
-      <div class="slide"
         data-place="Santorini, Greece"
-        data-caption="Sunset routes, local dining and effortless island exploration"
-        style="background-image:url('https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&q=90&w=2200');"></div>
+        data-caption="Sunset planning with route, budget and experience optimization"
+        style="background-image:url('https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&q=88&w=2200');"></div>
 
       <div class="slide"
-        data-place="Bora Bora, French Polynesia"
-        data-caption="Relaxed luxury planning with beautiful, balanced experiences"
-        style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=90&w=2200');"></div>
+        data-place="Zermatt, Switzerland"
+        data-caption="Mountain itineraries adapted to pace, weather and transport"
+        style="background-image:url('https://images.unsplash.com/photo-1674558282479-a9d3cb9e16be?auto=format&fit=crop&q=88&w=2200');"></div>
+
+      <div class="slide"
+        data-place="Hallstatt, Austria"
+        data-caption="Scenic destination discovery with geographically coherent planning"
+        style="background-image:url('https://images.unsplash.com/photo-1674653495082-d7313a0ec5ea?auto=format&fit=crop&q=88&w=2200');"></div>
 
       <div class="slide"
         data-place="Rome, Italy"
-        data-caption="Historic routes connected through practical, walkable planning"
-        style="background-image:url('https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&q=90&w=2200');"></div>
+        data-caption="Historic city itineraries with direct Google Maps navigation"
+        style="background-image:url('https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&q=88&w=2200');"></div>
     </div>
 
     <div class="container hero-content">
       <div class="hero-copy">
-        <div class="eyebrow">✈️ Intelligent travel, beautifully planned</div>
-        <h1>Every journey,<br><span class="hero-highlight">designed around you.</span></h1>
+        <div class="eyebrow">🤖 Multi-Agent AI Travel Intelligence</div>
+        <h1>Travel planning,<br><span style="background:linear-gradient(90deg,#fff,#82d7ff,#a999ff);-webkit-background-clip:text;background-clip:text;color:transparent;">reimagined by AI.</span></h1>
         <p class="hero-sub">
-          Tripmate AI turns your destination, dates, budget and interests into a refined travel plan with intelligent routes,
-          thoughtfully paced days, practical recommendations and direct navigation.
+          Tripmate AI coordinates specialized agents for destination discovery, itinerary optimization, budget reasoning,
+          weather-aware planning, travel safety and direct map navigation—turning one travel request into a coherent, practical trip.
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#journey">Create My Journey</a>
-          <a class="btn btn-glass" href="#discover">Explore Destinations</a>
+          <a class="btn btn-primary" href="#maps">🗺️ Open Maps Demo</a>
+          <a class="btn btn-glass" href="#architecture">⚙️ Explore Architecture</a>
         </div>
-        <div class="hero-trust">
-          <div class="trust"><b>Personalized</b><span>Plans built around your interests</span></div>
-          <div class="trust"><b>Efficient</b><span>Smarter routes with less backtracking</span></div>
-          <div class="trust"><b>Practical</b><span>Budget, timing and weather aware</span></div>
+        <div class="hero-stats">
+          <div class="stat"><b>6 AI Agents</b><span>Specialized planning roles</span></div>
+          <div class="stat"><b>1 Orchestrator</b><span>Unified travel workflow</span></div>
+          <div class="stat"><b>Maps Ready</b><span>Direct search & route links</span></div>
         </div>
       </div>
     </div>
 
     <div class="slider-ui">
       <div class="slide-info">
-        <strong id="placeName">Amalfi Coast, Italy</strong>
-        <small id="placeCaption">Coastal escapes shaped around views, timing and local experiences</small>
+        <strong id="placeName">Santorini, Greece</strong>
+        <small id="placeCaption">Sunset planning with route, budget and experience optimization</small>
       </div>
       <div class="slide-controls">
         <button class="arrow-btn" id="prevSlide" aria-label="Previous destination">←</button>
@@ -396,76 +337,48 @@
   </header>
 
   <main>
-    <section class="section" id="discover">
+    <section class="section" id="features">
       <div class="container">
         <div class="section-head">
-          <div class="kicker">Discover differently</div>
-          <h2>Beautiful places. Smarter choices.</h2>
-          <p>
-            Tripmate AI looks beyond famous landmarks. It organizes destinations around your travel style, preferred pace,
-            interests, timing and the kind of experience you actually want to have.
-          </p>
+          <div class="mini">Intelligent Travel System</div>
+          <h2>More than a chatbot. A coordinated travel-planning workflow.</h2>
+          <p>Tripmate AI decomposes a trip request into specialized tasks and combines them into one realistic travel plan with practical navigation.</p>
         </div>
 
-        <div class="destination-grid">
-          <div class="dest tall" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=88&w=1400')">
-            <div class="dest-copy"><h3>Swiss Alps</h3><span>Nature · mountain railways · scenic stays</span></div>
-          </div>
-          <div class="dest" style="background-image:url('https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?auto=format&fit=crop&q=88&w=1200')">
-            <div class="dest-copy"><h3>Amalfi Coast</h3><span>Coastal drives · villages · Mediterranean dining</span></div>
-          </div>
-          <div class="dest" style="background-image:url('https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&q=88&w=1200')">
-            <div class="dest-copy"><h3>Santorini</h3><span>Sunsets · island walks · romantic escapes</span></div>
-          </div>
-          <div class="dest" style="background-image:url('https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?auto=format&fit=crop&q=88&w=1200')">
-            <div class="dest-copy"><h3>Tropical Escape</h3><span>Beach time · wellness · slow travel</span></div>
-          </div>
-          <div class="dest" style="background-image:url('https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&q=88&w=1200')">
-            <div class="dest-copy"><h3>Kyoto</h3><span>Temples · culture · quiet neighborhoods</span></div>
-          </div>
+        <div class="grid-3">
+          <div class="card feature"><div class="icon">🧭</div><h3>Destination Intelligence</h3><p>Matches attractions, neighborhoods and experiences to interests, duration, travel style and user constraints.</p></div>
+          <div class="card feature"><div class="icon">🗓️</div><h3>Itinerary Optimization</h3><p>Organizes days around proximity, travel time and realistic activity density instead of producing a random attraction list.</p></div>
+          <div class="card feature"><div class="icon">💳</div><h3>Budget Reasoning</h3><p>Breaks estimated spend into accommodation, food, local transport, activities and contingency categories.</p></div>
+          <div class="card feature"><div class="icon">🌦️</div><h3>Weather-Aware Planning</h3><p>Can shift activities between indoor and outdoor alternatives when live forecast integrations are enabled.</p></div>
+          <div class="card feature"><div class="icon">🛡️</div><h3>Travel Safety Review</h3><p>Highlights unrealistic timing, late transfers and itinerary segments that deserve extra traveler attention.</p></div>
+          <div class="card feature"><div class="icon">📍</div><h3>Direct Map Navigation</h3><p>Generates direct Google Maps search, location and multi-stop direction links inside the final itinerary.</p></div>
         </div>
       </div>
     </section>
 
-    <section class="section alt" id="journey">
+    <section class="section lightish" id="destinations">
       <div class="container">
         <div class="section-head">
-          <div class="kicker">A better way to plan</div>
-          <h2>Your trip comes together as one clear journey.</h2>
-          <p>
-            Instead of overwhelming you with disconnected suggestions, Tripmate AI brings places, routes, timing and spending
-            into one smooth day-by-day experience.
-          </p>
+          <div class="mini">Explore Visually</div>
+          <h2>Beautiful destinations become structured AI decisions.</h2>
+          <p>The visual layer gives Tripmate AI a real travel-product feel while the engineering layer remains focused on agent orchestration and tool-driven planning.</p>
         </div>
 
-        <div class="trip-showcase">
-          <div class="travel-panel">
-            <div class="travel-panel-copy">
-              <h3>Balanced days, effortless movement.</h3>
-              <p>Nearby experiences are grouped together so you spend more time enjoying the destination and less time crossing the city.</p>
-            </div>
+        <div class="destination-grid">
+          <div class="dest tall" style="background-image:url('https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&q=85&w=1400')">
+            <div class="dest-copy"><h3>Santorini</h3><span>Romantic routes · viewpoints · sunset timing</span></div>
           </div>
-
-          <div class="card" style="padding:24px">
-            <div class="itinerary">
-              <div class="day">
-                <div class="day-head"><strong>Day 1 — Historic Heart</strong><small>Relaxed pace</small></div>
-                <p>Start with signature landmarks, continue through walkable streets and finish with an evening viewpoint.</p>
-                <div class="chips"><span class="chip">Walking-friendly</span><span class="chip">Local lunch</span><span class="chip">Sunset stop</span></div>
-              </div>
-
-              <div class="day">
-                <div class="day-head"><strong>Day 2 — Culture & Local Life</strong><small>Balanced</small></div>
-                <p>Blend museums or cultural sites with quieter neighborhoods, cafés and a more local atmosphere.</p>
-                <div class="chips"><span class="chip">Timed entry</span><span class="chip">Transit optimized</span><span class="chip">Weather aware</span></div>
-              </div>
-
-              <div class="day">
-                <div class="day-head"><strong>Day 3 — Flexible Discovery</strong><small>Open choice</small></div>
-                <p>Keep room for markets, gardens, shopping, food experiences or a slower final day based on your mood.</p>
-                <div class="chips"><span class="chip">Flexible timing</span><span class="chip">Budget control</span><span class="chip">Easy navigation</span></div>
-              </div>
-            </div>
+          <div class="dest" style="background-image:url('https://images.unsplash.com/photo-1674558282479-a9d3cb9e16be?auto=format&fit=crop&q=85&w=1200')">
+            <div class="dest-copy"><h3>Zermatt</h3><span>Mountains · weather · pace-aware planning</span></div>
+          </div>
+          <div class="dest" style="background-image:url('https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&q=85&w=1200')">
+            <div class="dest-copy"><h3>Rome</h3><span>History · walking clusters · map routes</span></div>
+          </div>
+          <div class="dest" style="background-image:url('https://images.unsplash.com/photo-1674653495082-d7313a0ec5ea?auto=format&fit=crop&q=85&w=1200')">
+            <div class="dest-copy"><h3>Hallstatt</h3><span>Scenic discovery · photography · day planning</span></div>
+          </div>
+          <div class="dest" style="background-image:url('https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?auto=format&fit=crop&q=85&w=1200')">
+            <div class="dest-copy"><h3>Mediterranean Escape</h3><span>Coast · leisure · flexible planning</span></div>
           </div>
         </div>
       </div>
@@ -474,77 +387,125 @@
     <section class="section" id="agents">
       <div class="container">
         <div class="section-head">
-          <div class="kicker">Intelligence working together</div>
-          <h2>Different travel decisions deserve different kinds of intelligence.</h2>
-          <p>
-            Tripmate AI combines specialized planning intelligence for discovery, routing, budgeting, timing, context and safety,
-            then brings everything together into one coherent recommendation.
-          </p>
+          <div class="mini">Agentic Architecture</div>
+          <h2>A specialized AI team behind every trip.</h2>
+          <p>Each agent handles one responsibility. The orchestrator reconciles the outputs before presenting a final itinerary to the traveler.</p>
         </div>
 
-        <div class="grid-3">
-          <div class="card feature"><div class="icon">🧭</div><h3>Destination Discovery</h3><p>Finds experiences that fit your interests, time available and preferred travel style.</p></div>
-          <div class="card feature"><div class="icon">🗺️</div><h3>Smart Routing</h3><p>Groups nearby places together and reduces unnecessary travel between stops.</p></div>
-          <div class="card feature"><div class="icon">💳</div><h3>Budget Awareness</h3><p>Keeps accommodation, food, transport and activities aligned with your target spend.</p></div>
-          <div class="card feature"><div class="icon">🌤️</div><h3>Context Awareness</h3><p>Adapts recommendations around weather, timing and the practical rhythm of the day.</p></div>
-          <div class="card feature"><div class="icon">🕰️</div><h3>Realistic Scheduling</h3><p>Avoids overcrowded days and gives major experiences enough time to feel enjoyable.</p></div>
-          <div class="card feature"><div class="icon">🛡️</div><h3>Travel Practicality</h3><p>Highlights awkward transfers, late movements and plan details that deserve extra attention.</p></div>
+        <div class="agents">
+          <div class="card agent"><div class="agent-top"><div class="icon">🧠</div><div><small>Agent 01</small><h3>Trip Orchestrator</h3></div></div><ul><li>Parses intent and constraints.</li><li>Delegates work to agents.</li><li>Resolves contradictory recommendations.</li><li>Produces validated final output.</li></ul></div>
+          <div class="card agent"><div class="agent-top"><div class="icon">🔎</div><div><small>Agent 02</small><h3>Discovery Agent</h3></div></div><ul><li>Finds attractions and neighborhoods.</li><li>Filters by interests and trip style.</li><li>Prioritizes experiences for available time.</li></ul></div>
+          <div class="card agent"><div class="agent-top"><div class="icon">🗺️</div><div><small>Agent 03</small><h3>Route Agent</h3></div></div><ul><li>Clusters geographically compatible stops.</li><li>Creates map URLs.</li><li>Reduces cross-city backtracking.</li></ul></div>
+          <div class="card agent"><div class="agent-top"><div class="icon">💰</div><div><small>Agent 04</small><h3>Budget Agent</h3></div></div><ul><li>Tracks estimated spending.</li><li>Identifies budget pressure.</li><li>Suggests more economical alternatives.</li></ul></div>
+          <div class="card agent"><div class="agent-top"><div class="icon">🌤️</div><div><small>Agent 05</small><h3>Context Agent</h3></div></div><ul><li>Uses weather and practical context.</li><li>Suggests activity substitutions.</li><li>Adds timing and packing guidance.</li></ul></div>
+          <div class="card agent"><div class="agent-top"><div class="icon">🛡️</div><div><small>Agent 06</small><h3>Travel Safety Agent</h3></div></div><ul><li>Checks itinerary practicality.</li><li>Flags ambiguous or high-risk segments.</li><li>Adds human-review notes when needed.</li></ul></div>
         </div>
       </div>
     </section>
 
-    <section class="section alt" id="maps">
+    <section class="section lightish" id="architecture">
       <div class="container">
         <div class="section-head">
-          <div class="kicker">From plan to place</div>
-          <h2>Open your route and go.</h2>
-          <p>
-            Tripmate AI connects recommendations directly with Google Maps so locations and routes can move from planning
-            to real navigation in one tap.
-          </p>
+          <div class="mini">System Design</div>
+          <h2>Production-oriented multi-agent architecture.</h2>
+          <p>A clean separation between user requirements, orchestration logic, specialized agents and external tools makes the project easier to test, extend and deploy.</p>
+        </div>
+        <div class="arch">
+          <div class="arch-box"><h3>User Layer</h3><ul><li>Destination & origin</li><li>Dates / duration</li><li>Budget</li><li>Interests</li><li>Pace & constraints</li></ul></div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-box"><h3>Agent Orchestration</h3><ul><li>Intent parsing</li><li>Task decomposition</li><li>Parallel workers</li><li>Conflict resolution</li><li>Schema validation</li></ul></div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-box"><h3>Tools & Output</h3><ul><li>Google Maps links</li><li>Weather service</li><li>Budget calculator</li><li>Structured JSON</li><li>Web UI / export</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="maps">
+      <div class="container">
+        <div class="section-head">
+          <div class="mini">Live Navigation</div>
+          <h2>Direct Google Maps links recruiters can test immediately.</h2>
+          <p>The page uses ordinary Google Maps URLs, so these links work without requiring a Maps API key for this static GitHub demo.</p>
         </div>
 
         <div class="map-wrap">
           <div class="map-list">
-            <a class="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Colosseum%2C+Rome">
-              <div><strong>Colosseum</strong><small>Open destination in Google Maps</small></div><span>↗</span>
-            </a>
-            <a class="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Trevi+Fountain%2C+Rome">
-              <div><strong>Trevi Fountain</strong><small>Open attraction location</small></div><span>↗</span>
-            </a>
-            <a class="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Vatican+Museums%2C+Vatican+City">
-              <div><strong>Vatican Museums</strong><small>Open point of interest</small></div><span>↗</span>
-            </a>
-            <a class="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=Colosseum%2C+Rome&destination=Trevi+Fountain%2C+Rome&travelmode=walking">
-              <div><strong>Walking Route</strong><small>Colosseum → Trevi Fountain</small></div><span>↗</span>
-            </a>
-            <a class="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=Colosseum%2C+Rome&destination=Piazza+Navona%2C+Rome&waypoints=Trevi+Fountain%2C+Rome%7CPantheon%2C+Rome&travelmode=walking">
-              <div><strong>Multi-Stop Route</strong><small>Colosseum → Trevi → Pantheon → Piazza Navona</small></div><span>↗</span>
-            </a>
+            <a class="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Colosseum%2C+Rome"><div><strong>Colosseum</strong><small>Open destination in Google Maps</small></div><span>↗</span></a>
+            <a class="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Trevi+Fountain%2C+Rome"><div><strong>Trevi Fountain</strong><small>Open attraction location</small></div><span>↗</span></a>
+            <a class="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Vatican+Museums%2C+Vatican+City"><div><strong>Vatican Museums</strong><small>Open point of interest</small></div><span>↗</span></a>
+            <a class="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=Colosseum%2C+Rome&destination=Trevi+Fountain%2C+Rome&travelmode=walking"><div><strong>Walking Route</strong><small>Colosseum → Trevi Fountain</small></div><span>↗</span></a>
+            <a class="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=Colosseum%2C+Rome&destination=Piazza+Navona%2C+Rome&waypoints=Trevi+Fountain%2C+Rome%7CPantheon%2C+Rome&travelmode=walking"><div><strong>Multi-Stop Route</strong><small>Colosseum → Trevi → Pantheon → Piazza Navona</small></div><span>↗</span></a>
           </div>
-
           <div class="map-photo">
             <div class="map-card">
-              <h3>Travel plans that lead somewhere.</h3>
-              <p>Move from inspiration to a real route with direct location and directions links for each important stop.</p>
+              <h3>From AI plan to real navigation.</h3>
+              <p>The Route Agent can convert a structured itinerary into clickable locations and multi-stop directions for practical traveler use.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="start">
+    <section class="section lightish">
       <div class="container">
-        <div class="cta">
-          <div class="kicker" style="color:#9ff2e7">Start planning</div>
-          <h2>Tell Tripmate where you want to go.</h2>
-          <p>
-            Choose your destination, dates, budget and interests. Tripmate AI turns them into a journey that feels personal,
-            realistic and easy to follow.
-          </p>
-          <div class="hero-actions" style="margin-top:24px">
-            <a class="btn btn-primary" href="#top">Plan a New Trip</a>
-            <a class="btn btn-glass" href="#maps">View Example Routes</a>
+        <div class="section-head">
+          <div class="mini">Engineering Stack</div>
+          <h2>Suggested implementation stack.</h2>
+          <p>Use only the technologies you actually implement in the repository. The design supports a strong modern AI engineering stack without overstating unfinished capabilities.</p>
+        </div>
+        <div class="stack">
+          <span class="tech">Python</span><span class="tech">FastAPI</span><span class="tech">LangGraph</span><span class="tech">LLM API</span>
+          <span class="tech">Pydantic</span><span class="tech">PostgreSQL</span><span class="tech">Redis</span><span class="tech">Docker</span>
+          <span class="tech">React / Streamlit</span><span class="tech">Google Maps URLs</span><span class="tech">Weather API</span><span class="tech">pytest</span>
+          <span class="tech">GitHub Actions</span><span class="tech">Structured JSON</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="setup">
+      <div class="container">
+        <div class="section-head">
+          <div class="mini">GitHub Ready</div>
+          <h2>Repository structure that looks like engineering work.</h2>
+        </div>
+        <div class="repo-grid">
+          <div class="card pad">
+            <h3>Recommended structure</h3>
+            <pre class="code">tripmate-ai/
+├── app/
+│   ├── agents/
+│   │   ├── orchestrator.py
+│   │   ├── discovery_agent.py
+│   │   ├── route_agent.py
+│   │   ├── budget_agent.py
+│   │   ├── context_agent.py
+│   │   └── safety_agent.py
+│   ├── tools/
+│   │   ├── maps.py
+│   │   ├── weather.py
+│   │   └── budget.py
+│   ├── schemas/
+│   ├── api/
+│   └── main.py
+├── tests/
+├── web/
+│   └── index.html
+├── Dockerfile
+├── requirements.txt
+└── README.md</pre>
+          </div>
+          <div class="card pad">
+            <h3>Example launch</h3>
+            <pre class="code">git clone https://github.com/Engr-Talha-Nazir/tripmate-ai.git
+cd tripmate-ai
+
+python -m venv .venv
+
+# Windows
+.venv\Scripts\activate
+
+pip install -r requirements.txt
+uvicorn app.main:app --reload</pre>
           </div>
         </div>
       </div>
@@ -553,46 +514,50 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <div><strong style="color:white">Tripmate AI</strong><br>Intelligent travel planning</div>
-      <div>Plan less. Experience more.</div>
+      <div><strong style="color:white">Tripmate AI</strong><br>Multi-Agent Travel Planner</div>
+      <div>Portfolio project for AI / ML Engineering · Travel imagery from Unsplash</div>
     </div>
   </footer>
 
   <script>
-    const slides=[...document.querySelectorAll('.slide')];
-    const dotsWrap=document.getElementById('dots');
-    const placeName=document.getElementById('placeName');
-    const placeCaption=document.getElementById('placeCaption');
-    let current=0,timer;
+    const slides = [...document.querySelectorAll('.slide')];
+    const dotsWrap = document.getElementById('dots');
+    const placeName = document.getElementById('placeName');
+    const placeCaption = document.getElementById('placeCaption');
+    let current = 0;
+    let timer;
 
-    slides.forEach((_,i)=>{
-      const d=document.createElement('button');
-      d.className='dot-btn'+(i===0?' active':'');
-      d.setAttribute('aria-label','Go to slide '+(i+1));
-      d.addEventListener('click',()=>{showSlide(i);restart();});
+    slides.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'dot-btn' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      d.addEventListener('click', () => { showSlide(i); restart(); });
       dotsWrap.appendChild(d);
     });
 
-    const dots=[...document.querySelectorAll('.dot-btn')];
+    const dots = [...document.querySelectorAll('.dot-btn')];
 
-    function showSlide(i){
+    function showSlide(i) {
       slides[current].classList.remove('active');
       dots[current].classList.remove('active');
-      current=(i+slides.length)%slides.length;
+      current = (i + slides.length) % slides.length;
       slides[current].classList.add('active');
       dots[current].classList.add('active');
-      placeName.textContent=slides[current].dataset.place;
-      placeCaption.textContent=slides[current].dataset.caption;
+      placeName.textContent = slides[current].dataset.place;
+      placeCaption.textContent = slides[current].dataset.caption;
     }
-    function next(){showSlide(current+1)}
-    function prev(){showSlide(current-1)}
-    function restart(){
+
+    function next() { showSlide(current + 1); }
+    function prev() { showSlide(current - 1); }
+    function restart() {
       clearInterval(timer);
-      timer=setInterval(next,5000);
+      timer = setInterval(next, 5200);
     }
-    document.getElementById('nextSlide').addEventListener('click',()=>{next();restart();});
-    document.getElementById('prevSlide').addEventListener('click',()=>{prev();restart();});
-    timer=setInterval(next,5000);
+
+    document.getElementById('nextSlide').addEventListener('click', () => { next(); restart(); });
+    document.getElementById('prevSlide').addEventListener('click', () => { prev(); restart(); });
+
+    timer = setInterval(next, 5200);
   </script>
 </body>
 </html>
